@@ -22,10 +22,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.0'
+        return '1.0.2'
 
 
 '''
+v1.0.2
+    Updated README and compile.sh
+v1.0.1
+    Updated README and compile.sh
 v1.0.0
     Based on the tuning inspector included in https://modthesims.info/download.php?t=666111 Live XML
     Based on the tuning inspector https://modthesims.info/showthread.php?t=575118 by sumbumbo
