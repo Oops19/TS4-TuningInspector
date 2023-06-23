@@ -1,4 +1,4 @@
-#  Tuning Inspector
+# Tuning Inspector
 
 Insect the loaded tuning files which are converted to Python objects. Most settings which are in the XML files are readable this way.
 The inspector doesn't allow to modify any settings.
