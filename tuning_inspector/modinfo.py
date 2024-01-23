@@ -22,12 +22,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.4'
+        return '1.0.6'
 
 
 '''
+v1.0.6
+    Updated README for new TS4 version
 v1.0.5
-    Udpated docx
+    Updated docx
 v1.0.4
     Log all attributes if one is found in dict instead of only the 1st
 v1.0.3
