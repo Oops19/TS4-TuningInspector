@@ -15,7 +15,7 @@ from ts4lib.libraries.ts4folders import TS4Folders
 from ts4lib.utils.tuning_helper import TuningHelper
 from tuning_inspector.modinfo import ModInfo
 
-log: CommonLog = CommonLogRegistry.get().register_log(f"{ModInfo.get_identity().name}", ModInfo.get_identity().name)
+log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
 
 
 class TuningInspector:
