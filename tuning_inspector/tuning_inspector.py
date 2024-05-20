@@ -8,7 +8,7 @@ import inspect
 import os
 
 from sims4communitylib.utils.common_io_utils import CommonIOUtils
-from sims4communitylib.utils.common_log_registry import CommonLogRegistry, CommonLog
+from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 from sims4communitylib.services.commands.common_console_command import CommonConsoleCommand, CommonConsoleCommandArgument
 from sims4communitylib.services.commands.common_console_command_output import CommonConsoleCommandOutput
 from ts4lib.libraries.ts4folders import TS4Folders
