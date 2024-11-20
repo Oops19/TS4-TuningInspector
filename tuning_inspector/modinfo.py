@@ -22,10 +22,16 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.7'
+        return '1.0.10'
 
 
 '''
+v1.0.10
+    Support for '*' to drill down into lists, sets and tuples
+v1.0.9
+    Fix string check
+v1.0.8
+    Drill down also into CompoundTestList
 v1.0.7
     Improved logging
 v1.0.6

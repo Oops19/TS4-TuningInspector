@@ -7,6 +7,7 @@
 import inspect
 import os
 
+from event_testing.tests import CompoundTestList
 from sims4communitylib.utils.common_io_utils import CommonIOUtils
 from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 from sims4communitylib.services.commands.common_console_command import CommonConsoleCommand, CommonConsoleCommandArgument
@@ -104,17 +105,18 @@ class TuningInspector:
 
     def o19_drill_getattr(self, obj, attribute_name):
         self.inspector_log(f"**** o19_drill_getattr(obj :`{type(obj)}´ = `{obj}´, `{attribute_name}´) ****")
-        if isinstance(obj, tuple) or isinstance(obj, list):
+        if isinstance(obj, tuple) or isinstance(obj, list) or isinstance(obj, set) or isinstance(obj, CompoundTestList):
             attribute = None
             for elem in obj:
-                if isinstance(elem, tuple) or isinstance(elem, list):
+                if isinstance(elem, tuple) or isinstance(elem, list) or isinstance(elem, set) or isinstance(obj, CompoundTestList):
                     return self.o19_drill_getattr(elem, attribute_name)
-                attribute = getattr(elem, attribute_name, None)
-                if attribute:
-                    self.inspector_log(f"    # for t in obj: attribute_name = getattr(t, 'attribute_name', None)")
-                    self.o19_inspect_object(attribute)
-                else:
-                    self.inspector_log(f"WARN Could not get attribute '{attribute_name}' for elem '{elem}' in object '{obj}: {type(obj)} - (tuple/list) (1)'", True)
+                if attribute_name != '*':
+                    attribute = getattr(elem, attribute_name, None)
+                    if attribute:
+                        self.inspector_log(f"    # for t in obj: attribute_name = getattr(t, 'attribute_name', None)")
+                        self.o19_inspect_object(attribute)
+                    else:
+                        self.inspector_log(f"WARN Could not get attribute '{attribute_name}' for elem '{elem}' in object '{obj}: {type(obj)} - (tuple/list) (1)'", True)
             for elem in obj:
                 self.inspector_log(f"**** (2) `{elem}´: `{type(elem)}´ ****")
                 elem_str = f"{elem}"
@@ -131,12 +133,12 @@ class TuningInspector:
         elif isinstance(obj, dict):
             for _attribute_name, _attribute_value in obj.items():
                 self.inspector_log(f"**** (2) `{_attribute_name}´ = `{_attribute_value}´ ****")
-                if f'{_attribute_name}' == f'attribute_name':
-                    self.inspector_log(f"    # attribute_name = obj['attribute_name']")
+                if f'{_attribute_name}' == f'{attribute_name}':
+                    self.inspector_log(f"    # Found attribute_name '{attribute_name}'")
                     if _attribute_value:
                         self.o19_inspect_object(_attribute_value)
                     else:
-                        self.inspector_log(f"ERROR Could not get attribute `{attribute_name}´ for object `{obj}´: `{type(obj)}´ - (dict)'", True)
+                        self.inspector_log(f"ERROR Could not get attribute value for `{attribute_name}´ for object `{obj}´: `{type(obj)}´ - (dict)'", True)
         else:
             self.inspector_log(f"ERROR Could not get attribute '{attribute_name}' for object '{obj}: {type(obj)} - (other)'", True)
         return None
