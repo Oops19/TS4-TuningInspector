@@ -37,7 +37,7 @@ v1.0.7
 v1.0.6
     Updated README for new TS4 version
 v1.0.5
-    Updated docx
+    Updated docs
 v1.0.4
     Log all attributes if one is found in dict instead of only the 1st
 v1.0.3
