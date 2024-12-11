@@ -26,6 +26,7 @@ With PatchXML one can patch these tests during load-time. With Live-XML patching
 With this public release both TS4Lib and this mod will no longer be bundled with Live-XML or Patch-XML.
 
 ### Examples
+#### Faster Gardening - Tutorial for a Live XML mod
 
 
 ## Compatibility
@@ -41,7 +42,7 @@ This inspector accepts the classes/tuples/... to look into directly as a paramet
 # Addendum
 
 ## Game compatibility
-This mod has been tested with `The Sims 4` 1.110.311, S4CL 3.9, TS4Lib 0.3.28 (2024-11-14).
+This mod has been tested with `The Sims 4` 1.111.102, S4CL 3.9, TS4Lib 0.3.33.
 It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
 
 ## Dependencies
