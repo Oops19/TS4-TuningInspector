@@ -1,92 +1,100 @@
-# Tuning Inspector
+# 🔍 Tuning Inspector
 
-This mod allows to inspect the loaded tuning files which are converted to Python objects. Most settings which are in the XML files are readable this way.
-The inspector doesn't allow to modify any settings.
+A utility mod that inspects loaded tuning files by converting them into Python objects.
+Most settings defined in XML are readable this way — but not editable.
+This mod provides read-only access to tuning data.
 
-## Audience
-* Mod authors who create and/or patch tuning files can use this mod to verify the modification.
-* Mod aod authors who shamelessly copy EA code to modify one line and then paste it in a tuning are also welcome to use this mod. But please don't do this, it is not nice to break the game of other players with every TS4 update. Use Patch-XML and create mods which don't break the game.
+## 🎯 Audience
+* Mod authors who create or patch tuning files can use this tool to verify their changes.
+* Mod authors who copy EA tuning wholesale to change a single line are also welcome — but please reconsider. Mods that break with every TS4 update hurt the player experience. Use [Patch-XML](https://github.com/Oops19/TS4-PatchXML) to create resilient mods that don’t break the game.
 
-This mod is not intended to be installed and used by people who want to play The Sims 4. It doesn't modify the game play at all. It offers read-only access to loaded tuning objects.
+This mod is not intended for regular gameplay. It does not alter game behavior and is purely diagnostic.
 
-## Usage of the Tuning Inspector
+## 🧑‍💻 Usage
+If you're modifying location tests (e.g., for beach towels), it's easy to change the XML — but harder to confirm if your edits work in-game.
 
-If you plan to modify location tests for the beach towel it's easy to edit the XML and edit some elements.
-Anyhow, it might be hard to test whether the changes do actually work and have been properly imported.
-
-Here are some commands to look into the tuning object which is used in-game:
+Use the following commands to inspect tuning objects:
+```text
 'inspect - suntan_BeachTowel' - the mod will figure out that you meant manager 'interaction'.
 'inspect INTERACTION suntan_BeachTowel' - to look at the tuning. You will notice that there are 'test_globals'.
 'inspect INTERACTION suntan_BeachTowel test_globals' - to drill down into the test_globals property. You will notice that 'LocationTest' is one of the possible tests.
 'inspect INTERACTION suntan_BeachTowel test_globals.LocationTest' - to drill further down into the test_globals and then into the LocationTest property.
+```
 
-The output can be overwhelming and digging into XML properties is not always be possible. Some tests are converted to test objects in TS4 and can not be found in the tuning.
-With PatchXML one can patch these tests during load-time. With Live-XML patching such tests is very tricky. 
+Each command drills deeper into the tuning structure:
+* The mod auto-detects the manager (e.g., INTERACTION)
+* You can explore nested properties like test_globals and LocationTest
 
-With this public release both TS4Lib and this mod will no longer be bundled with Live-XML or Patch-XML.
+Some tests are converted into runtime objects and may not appear in the tuning.
+[Patch-XML](https://github.com/Oops19/TS4-PatchXML) can patch these during load-time.
+[LiveXML](https://github.com/Oops19/TS4-LiveXML) makes patching such tests more difficult.
 
-### Examples
-#### Faster Gardening - Tutorial for a Live XML mod
+## 🔄 Compatibility
 
+This mod is incompatible with Scumbumbo’s Inspector, which uses the same `inspect` cheat command.
 
-## Compatibility
-
-This mod is incompatible with the [inspector](https://modthesims.info/showthread.php?t=575118) tool by [scumbumbo](https://modthesims.info/m/7401825) as the same 'inspect' cheat command is used.
-
-I made it incompatible on purpose as the original inspector is a script to edit, reload, edit, reload to inspect the tuning. I did this many times while it wasn't too much fun.
-
-This inspector accepts the classes/tuples/... to look into directly as a parameter which avoids endless script editing and reloading.
-
+That tool required editing and reloading scripts repeatedly — something I’ve done many times and didn’t enjoy.
+This version accepts Python objects (classes, tuples, etc.) directly as parameters, eliminating the need for constant script edits.
 
 
-# Addendum
 
-## Game compatibility
-This mod has been tested with `The Sims 4` 1.118.257, S4CL 3.15, TS4Lib 0.3.42.
-It is expected to be compatible with many upcoming releases of TS4, S4CL and TS4Lib.
+# 📝 Addendum
 
-## Dependencies
-Download the ZIP file, not the sources.
+## 🔄 Game compatibility
+This mod has been tested with `The Sims 4` 1.119.109, S4CL 3.15, TS4Lib 0.3.42.
+It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.
+
+## 📦 Dependencies
+Download the ZIP file - not the source code.
+Required components:
 * [This Mod](../../releases/latest)
 * [TS4-Library](https://github.com/Oops19/TS4-Library/releases/latest)
 * [S4CL](https://github.com/ColonolNutty/Sims4CommunityLibrary/releases/latest)
 * [The Sims 4](https://www.ea.com/games/the-sims/the-sims-4)
 
-If not installed download and install TS4 and these mods.
-All are available for free.
+If not already installed, download and install TS4 and the listed mods. All are available for free.
 
-## Removal of the mod
-The mod installation with unzip writes to a few directories.
-To remove this mod and all related files locate the files and folders and remove them:
-* `The Sims 4/Mods/_o19_/$mod_name.*`
-* `The Sims 4/mod_data/_o19_/$mod_name/`
-* `The Sims 4/mod_documentation/_o19_/$mod_name/`
-* `The Sims 4/mod_sources/_o19_/$mod_name/`
+## 📥 Installation
+* Locate the localized `The Sims 4` folder (it contains the `Mods` folder).
+* Extract the ZIP file directly into this folder.
 
-To remove all of my mods locate these folders and remove them:
-* `The Sims 4/Mods/_o19_/`
-* `The Sims 4/mod_data/_o19_/`
-* `The Sims 4/mod_documentation/_o19_/`
-* `The Sims 4/mod_sources/_o19_/`
- 
-## Installation
-* Locate the localized `The Sims 4` folder which contains the `Mods` folder.
-* Extract the ZIP file into this `The Sims 4` folder.
-* It will create the directories/files `Mods/_o19_/$mod_name.ts4script`, `Mods/_o19_/$mod_name.package`, `mod_data/$mod_name/*` and/or `mod_documentation/$mod_name/*` and/or `mod_sources/$mod_name/*`
-* CAS and build-buy UGC without scripts will create `Mods/o19/$mod_name.package`.
-* `mod_logs/$mod_name.txt` will be created as soon as data is logged.
-* `mod_documentation/$mod_name/` and/or `mod_sources/$mod_name/` are not required and can be deleted.
+This will create:
+* `Mods/_o19_/$mod_name.ts4script`
+* `Mods/_o19_/$mod_name.package`
+* `mod_data/$mod_name/*`
+* `mod_documentation/$mod_name/*` (optional)
+* `mod_sources/$mod_name/*` (optional)
 
-### Manual Installation
-If you don't want to extract the ZIP file into `The Sims 4` folder you might want to read this.
-You can extract the ZIP file to a temporary directory and copy the folders manually.
-* The files in `ZIP-File/mod_data` are usually required and should be extracted to `The Sims 4/mod_data`.
-* The files in `ZIP-File/mod_documentation` are for you to read it. They are not needed to use this mod.
-* The files in `ZIP-File/mod_sources` are not needed to use this mod.
-* The `Mods/_o19_/*.ts4script` files can be stored in a random folder within `Mods` or directly in `Mods`. I highly recommend to store it in `_o19_` so you know who created it.
+Additional notes:
+* CAS and Build/Buy UGC without scripts will create `Mods/o19/$mod_name.package`.
+* A log file `mod_logs/$mod_name.txt` will be created once data is logged.
+* You may safely delete `mod_documentation/` and `mod_sources/` folders if not needed.
 
-## Troubleshooting
-When installed properly this is not necessary at all.
+### 📂 Manual Installation
+If you prefer not to extract directly into `The Sims 4`, you can extract to a temporary location and copy files manually:
+* Copy `mod_data/` contents to `The Sims 4/mod_data/` (usually required).
+* `mod_documentation/` is for reference only — not required.
+* `mod_sources/` is not needed to run the mod.
+* `.ts4script` files can be placed in a folder inside `Mods/`, but storing them in `_o19_` is recommended for clarity.
+* `.package` files can be placed in a anywhere inside `Mods/`.
+
+## 🛠️ Troubleshooting
+If installed correctly, no troubleshooting should be necessary.
+For manual installs, verify the following:
+* Does your localized `The Sims 4` folder exist? (e.g. localized to Die Sims 4, Les Sims 4, Los Sims 4, The Sims 4, ...)
+  * Does it contain a `Mods/` folder?
+    * Does Mods/_o19_/ contain:
+      * `ts4lib.ts4script` and `ts4lib.package`?
+      * `{mod_name}.ts4script` and/or `{mod_name}.package`
+* Does `mod_data/` contain `{mod_name}/` with files?
+* Does `mod_logs/` contain:
+  * `Sims4CommunityLib_*_Messages.txt`?
+  * `TS4-Library_*_Messages.txt`?
+  * `{mod_name}_*_Messages.txt`?
+* Are there any `last_exception.txt` or `last_exception*.txt` files in `The Sims 4`?
+
+
+* When installed properly this is not necessary at all.
 For manual installations check these things and make sure each question can be answered with 'yes'.
 * Does 'The Sims 4' (localized to Die Sims 4, Les Sims 4, Los Sims 4, The Sims 4, ...) exist?
   * Does `The Sims 4` contain the folder `Mods`?
@@ -105,30 +113,52 @@ For manual installations check these things and make sure each question can be a
   * Doesn't `The Sims 4` contain the file(s) `last_exception.txt`  and/or `last_exception*.txt` ?
 * Share the `The Sims 4/mod_logs/Sims4CommunityLib_*_Messages.txt` and `The Sims 4/mod_logs/{mod_name}_*_Messages.txt`  file.
 
-## Usage Tracking / Privacy
-This mod does not send any data to tracking servers. The code is open source, not obfuscated, and can be reviewed.
+If issues persist, share:
+`mod_logs/Sims4CommunityLib_*_Messages.txt`
+`mod_logs/{mod_name}_*_Messages.txt`
 
-Some log entries in the log file ('mod_logs' folder) may contain the local username, especially if files are not found (WARN, ERROR).
+## 🕵️ Usage Tracking / Privacy
+This mod does not send any data to external servers.
+The code is open source, unobfuscated, and fully reviewable.
 
-## External Links
+Note: Some log entries (especially warnings or errors) may include your local username if file paths are involved.
+Share such logs with care.
+
+## 🔗 External Links
 [Sources](https://github.com/Oops19/)
 [Support](https://discord.gg/d8X9aQ3jbm)
 [Donations](https://www.patreon.com/o19)
 
-## Copyright and License
+## ⚖️ Copyright and License
 * © 2020-2025 [Oops19](https://github.com/Oops19)
-* License for '.package' files: [Electronic Arts TOS for UGC](https://tos.ea.com/legalapp/WEBTERMS/US/en/PC/)  
-* License for other media unless specified differently: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless the Electronic Arts TOS for UGC overrides it.
-This allows you to use this mod and re-use the code even if you don't own The Sims 4.
-Have fun extending this mod and/or integrating it with your mods.
+* `.package` files: [Electronic Arts TOS for UGC](https://tos.ea.com/legalapp/WEBTERMS/US/en/PC/)  
+* All other content (unless otherwise noted): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 
 
-Oops19 / o19 is not endorsed by or affiliated with Electronic Arts or its licensors.
-Game content and materials copyright Electronic Arts Inc. and its licensors. 
-Trademarks are the property of their respective owners.
+You may use and adapt this mod and its code — even without owning The Sims 4.
+Have fun extending or integrating it into your own mods!
 
-### TOS
-* Please don't put it behind a paywall.
-* Please don't create mods which break with every TS4 update.
-* For simple tuning modifications use [Patch-XML](https://github.com/Oops19/TS4-PatchXML) 
-* or [LiveXML](https://github.com/Oops19/TS4-LiveXML).
-* To check the XML structure of custom tunings use [VanillaLogs](https://github.com/Oops19/TS4-VanillaLogs).
+Oops19 / o19 is not affiliated with or endorsed by Electronic Arts or its licensors.
+Game content and materials © Electronic Arts Inc. and its licensors.
+All trademarks are the property of their respective owners.
+
+## 🧾 Terms of Service
+* Do not place this mod behind a paywall.
+* Avoid creating mods that break with every TS4 update.
+* For simple tuning mods, consider using:
+  * [Patch-XML](https://github.com/Oops19/TS4-PatchXML) 
+  * [LiveXML](https://github.com/Oops19/TS4-LiveXML).
+* To verify custom tuning structures, use:
+  * [VanillaLogs](https://github.com/Oops19/TS4-VanillaLogs).
+
+## 🗑️ Removing the Mod
+Installing this mod creates files in several directories. To fully remove it, delete:
+* `The Sims 4/Mods/_o19_/$mod_name.*`
+* `The Sims 4/mod_data/_o19_/$mod_name/`
+* `The Sims 4/mod_documentation/_o19_/$mod_name/`
+* `The Sims 4/mod_sources/_o19_/$mod_name/`
+
+To remove all of my mods, delete the following folders:
+* `The Sims 4/Mods/_o19_/`
+* `The Sims 4/mod_data/_o19_/`
+* `The Sims 4/mod_documentation/_o19_/`
+* `The Sims 4/mod_sources/_o19_/`
