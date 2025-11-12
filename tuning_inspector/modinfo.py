@@ -22,10 +22,13 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.10'
+        return '1.0.11'
 
 
 '''
+v1.0.11
+    Basic support for tunings generated via modules.
+    E.g. 'x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS'
 v1.0.10
     Support for '*' to drill down into lists, sets and tuples
 v1.0.9

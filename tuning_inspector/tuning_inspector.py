@@ -4,19 +4,23 @@
 #
 
 
-import inspect
 import os
+import inspect
+
+from tuning_inspector.modinfo import ModInfo
+
+from ts4lib.libraries.ts4folders import TS4Folders
+from ts4lib.utils.tuning_helper import TuningHelper
 
 from event_testing.tests import CompoundTestList
+
 from sims4communitylib.utils.common_io_utils import CommonIOUtils
 from sims4communitylib.utils.common_log_registry import CommonLog, CommonLogRegistry
 from sims4communitylib.services.commands.common_console_command import CommonConsoleCommand, CommonConsoleCommandArgument
 from sims4communitylib.services.commands.common_console_command_output import CommonConsoleCommandOutput
-from ts4lib.libraries.ts4folders import TS4Folders
-from ts4lib.utils.tuning_helper import TuningHelper
-from tuning_inspector.modinfo import ModInfo
 
 log: CommonLog = CommonLogRegistry.get().register_log(ModInfo.get_identity(), ModInfo.get_identity().name)
+log.enable()
 
 
 class TuningInspector:
@@ -217,3 +221,75 @@ class TuningInspector:
             log.error(f"Error: '{e}'")
         log.disable()
 
+    @staticmethod
+    @CommonConsoleCommand(
+        ModInfo.get_identity(),
+        'x-inspect',
+        "Log Usage: 'x-inspect Class TUNING - e.g. x-inspect Foo BAR",
+        command_arguments=(
+                CommonConsoleCommandArgument('class_name', 'str', 'The class.', is_optional=False),
+                CommonConsoleCommandArgument('attribute_name', 'str', 'The tuning.', is_optional=True),
+        )
+    )
+    def cmd_o19_inspect_log(output: CommonConsoleCommandOutput, class_name: str, attribute_name: str = ''):
+        try:
+            lookup_table = {
+                "SocialMediaTunables".lower(): ("social_media.social_media_tuning.SocialMediaTunables", None),  # SOCIAL_MEDIA_POST_REACTIONS
+                "LocalizationStrings".lower(): ("automation.constants.Constants", "LocalizationStrings"),
+                "Interactions".lower(): ("automation.constants.Constants", "Interactions"),
+                "ObjectDefinitions".lower(): ("automation.constants.Constants", "ObjectDefinitions"),
+                "ResourceIds".lower(): ("automation.constants.Constants", "ResourceIds"),
+                "LotDescriptions".lower(): ("automation.constants.Constants", "LotDescriptions"),
+                "ClubSeeds".lower(): ("automation.constants.Constants", "ClubSeeds"),
+                "Recipes".lower(): ("automation.constants.Constants", "Recipes"),
+                "Situations".lower(): ("automation.constants.Constants", "Situations"),
+                "SituationJobs".lower(): ("automation.constants.Constants", "SituationJobs"),
+                "Buffs".lower(): ("automation.constants.Constants", "Buffs"),
+                "Misc".lower(): ("automation.constants.Constants", "Misc"),
+                "ClubTunables".lower(): ("clubs.club_tuning.ClubTunables", None),
+                "CommandTuning".lower(): ("server_commands.sim_commands.CommandTuning", None),
+                "UiTuning".lower(): ("ui.ui_tuning.UiTuning", None),
+            }
+            output(f"{class_name}")
+
+            module_and_class_name, sub_class_name = lookup_table.get(class_name, (None, None))
+            if not module_and_class_name:
+                pass  # format lowercase to social_media.social_media_tuning.SocialMediaTunable ... etc
+            module_name, _, cls_name = module_and_class_name.rpartition('.')
+            output(f"* {module_name} * {cls_name} * {sub_class_name} * {attribute_name} *")
+            import importlib
+            _module = importlib.import_module(module_name)
+            _class = getattr(_module, cls_name)
+            if sub_class_name:
+                _class = getattr(_class, sub_class_name)
+
+            def resolve_tuning_attr(cls, user_input: str,):
+                # Try direct access first (e.g., user_input.upper())
+                try:
+                    return getattr(cls, user_input.upper())
+                except AttributeError:
+                    pass
+
+                for attr in dir(cls):
+                    if attr.lower() == user_input:
+                        return getattr(cls, attr)
+                return None
+
+            output(f"attribute_name {attribute_name}")
+            tuning = resolve_tuning_attr(_class, attribute_name)
+            if tuning is None:
+                tunings = []
+                for i in dir(_class):
+                    if i.startswith('_'):
+                        continue
+                    tunings.append(i)
+                tunings.sort()
+                output(f"Available tunings: {tunings}")
+                log.debug(f"Available tunings: {tunings}")
+                return
+            output(f"{type(tuning)}")
+            log.debug(f"{type(tuning)}")
+
+            output('Done')
+        except Exception as e:
+            log.error(f"Error: {e}")

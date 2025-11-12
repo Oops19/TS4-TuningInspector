@@ -1,5 +1,4 @@
 <h1>🔍 Tuning Inspector</h1>
-<br/>
 A utility mod that inspects loaded tuning files by converting them into Python objects.<br/>
 Most settings defined in XML are readable this way — but not editable.<br/>
 This mod provides read-only access to tuning data.<br/>
@@ -16,12 +15,15 @@ This mod is not intended for regular gameplay. It does not alter game behavior a
 If you're modifying location tests (e.g., for beach towels), it's easy to change the XML — but harder to confirm if your edits work in-game.<br/>
 <br/>
 Use the following commands to inspect tuning objects:<br/>
-<pre>
-'inspect - suntan_BeachTowel' - the mod will figure out that you meant manager 'interaction'.
-'inspect INTERACTION suntan_BeachTowel' - to look at the tuning. You will notice that there are 'test_globals'.
-'inspect INTERACTION suntan_BeachTowel test_globals' - to drill down into the test_globals property. You will notice that 'LocationTest' is one of the possible tests.
-'inspect INTERACTION suntan_BeachTowel test_globals.LocationTest' - to drill further down into the test_globals and then into the LocationTest property.
-</pre>
+<br/>
+<ul>
+	<li>`inspect - suntan_BeachTowel</i> - the mod will figure out that you meant manager 'interaction'.</li>
+	<li>`inspect INTERACTION suntan_BeachTowel</i> - to look at the tuning. You will notice that there are 'test_globals'.</li>
+	<li>`inspect INTERACTION suntan_BeachTowel test_globals</i> - to drill down into the test_globals property. You will notice that 'LocationTest' is one of the possible tests.</li>
+	<li>`inspect INTERACTION suntan_BeachTowel test_globals.LocationTest</i> - to drill further down into the test_globals and then into the LocationTest property.</li>
+	<li>`x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS</i> - 'Alpha' support for module based classes.</li>
+	<li>`x-inspect SocialMediaTunables</i> - List all available tunables.</li>
+</ul>
 <br/>
 Each command drills deeper into the tuning structure:<br/>
 <ul>
@@ -37,15 +39,16 @@ Some tests are converted into runtime objects and may not appear in the tuning.<
 <br/>
 This mod is incompatible with Scumbumbo’s Inspector, which uses the same <i>inspect</i> cheat command.<br/>
 <br/>
-That tool required editing and reloading scripts repeatedly — something I’ve done many times and didn’t enjoy.<br/>
+Scumbumbo’s tool requires editing and reloading scripts repeatedly — something I’ve done many times and didn’t enjoy.<br/>
 This version accepts Python objects (classes, tuples, etc.) directly as parameters, eliminating the need for constant script edits.<br/>
 <br/>
 <br/>
+---<br/>
 <br/>
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.119.109, S4CL 3.15, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.119.109, S4CL 3.17, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>
@@ -197,7 +200,7 @@ To remove all of my mods, delete the following folders:<br/>
 <h1>📝 Addendum</h1>
 <br/>
 <h2>🔄 Game compatibility</h2>
-This mod has been tested with <i>The Sims 4</i> 1.119.109, S4CL 3.15, TS4Lib 0.3.42.<br/>
+This mod has been tested with <i>The Sims 4</i> 1.119.109, S4CL 3.17, TS4Lib 0.3.42.<br/>
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.<br/>
 <br/>
 <h2>📦 Dependencies</h2>

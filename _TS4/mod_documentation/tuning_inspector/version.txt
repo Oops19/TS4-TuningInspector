@@ -1,5 +1,6 @@
-TuningInspector v1.0.10 for The Sims 4 v1.119.109 and S4CL v3.15
-Created on 2025-11-09
-v1.0.10
-    Support for '*' to drill down into lists, sets and tuples
+TuningInspector v1.0.11 for The Sims 4 v1.119.109 and S4CL v3.17
+Created on 2025-11-12
+v1.0.11
+    Basic support for tunings generated via modules.
+    E.g. 'x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS'
 
