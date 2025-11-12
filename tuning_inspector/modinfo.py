@@ -22,10 +22,14 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.11'
+        return '1.0.12'
 
 
 '''
+v1.0.12
+    Support for random tunables:
+    'x-inspect social_media.social_media_tuning._Social_Media_Tunables SOCIAL_MEDIA_POST_REACTIONS'
+    'x-inspect automation.constants._Constants/_Lot_Descriptions gameplay_soak_exclusions'
 v1.0.11
     Basic support for tunings generated via modules.
     E.g. 'x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS'

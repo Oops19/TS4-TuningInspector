@@ -21,8 +21,14 @@ Use the following commands to inspect tuning objects:<br/>
 	<li>`inspect INTERACTION suntan_BeachTowel</i> - to look at the tuning. You will notice that there are 'test_globals'.</li>
 	<li>`inspect INTERACTION suntan_BeachTowel test_globals</i> - to drill down into the test_globals property. You will notice that 'LocationTest' is one of the possible tests.</li>
 	<li>`inspect INTERACTION suntan_BeachTowel test_globals.LocationTest</i> - to drill further down into the test_globals and then into the LocationTest property.</li>
-	<li>`x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS</i> - 'Alpha' support for module based classes.</li>
+</ul>
+<br/>
+To inspect module based tunings <i>x-inspect</i> must be used:<br/>
+<ul>
+	<li>`x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS</i> - 'Alpha' short name support for module based classes.</li>
 	<li>`x-inspect SocialMediaTunables</i> - List all available tunables.</li>
+	<li>`x-inspect automation.constants._Constants/_Lot_Descriptions</i> - Show tunings for 'automation/constants.py; class Constants: class  LotDescriptions'</li>
+	<li>`x-inspect social_media.social_media_tuning._Social_Media_Tunables SOCIAL_MEDIA_POST_REACTIONS`</li>
 </ul>
 <br/>
 Each command drills deeper into the tuning structure:<br/>
@@ -42,6 +48,27 @@ This mod is incompatible with Scumbumbo’s Inspector, which uses the same <i>in
 Scumbumbo’s tool requires editing and reloading scripts repeatedly — something I’ve done many times and didn’t enjoy.<br/>
 This version accepts Python objects (classes, tuples, etc.) directly as parameters, eliminating the need for constant script edits.<br/>
 <br/>
+<h2>📜 Short Names</h2>
+<ul>
+	<li>"SocialMediaTunables": "social_media.social_media_tuning.SocialMediaTunables"</li>
+	<li>"LocalizationStrings": "automation.constants.Constants", "LocalizationStrings"</li>
+	<li>"Interactions": "automation.constants.Constants", "Interactions"</li>
+	<li>"ObjectDefinitions": "automation.constants.Constants", "ObjectDefinitions"</li>
+	<li>"ResourceIds": "automation.constants.Constants", "ResourceIds"</li>
+	<li>"LotDescriptions": "automation.constants.Constants", "LotDescriptions"</li>
+	<li>"ClubSeeds": "automation.constants.Constants", "ClubSeeds"</li>
+	<li>"Recipes": "automation.constants.Constants", "Recipes"</li>
+	<li>"Situations": "automation.constants.Constants", "Situations"</li>
+	<li>"SituationJobs": "automation.constants.Constants", "SituationJobs"</li>
+	<li>"Buffs": "automation.constants.Constants", "Buffs"</li>
+	<li>"Misc": "automation.constants.Constants", "Misc"</li>
+	<li>"ClubTunables": "clubs.club_tuning.ClubTunables"</li>
+	<li>"CommandTuning": "server_commands.sim_commands.CommandTuning"</li>
+	<li>"UiTuning": "ui.ui_tuning.UiTuning"</li>
+</ul>
+<br/>
+When using the full qualified names make sure to use '_a' for 'A'.<br/>
+The attribute is always converted to upper case.<br/>
 <br/>
 ---<br/>
 <br/>

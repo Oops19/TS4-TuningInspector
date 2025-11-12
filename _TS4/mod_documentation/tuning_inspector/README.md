@@ -18,8 +18,12 @@ Use the following commands to inspect tuning objects:
 * `inspect INTERACTION suntan_BeachTowel` - to look at the tuning. You will notice that there are 'test_globals'.
 * `inspect INTERACTION suntan_BeachTowel test_globals` - to drill down into the test_globals property. You will notice that 'LocationTest' is one of the possible tests.
 * `inspect INTERACTION suntan_BeachTowel test_globals.LocationTest` - to drill further down into the test_globals and then into the LocationTest property.
-* `x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS` - 'Alpha' support for module based classes.
+
+To inspect module based tunings `x-inspect` must be used: 
+* `x-inspect SocialMediaTunables SOCIAL_MEDIA_POST_REACTIONS` - 'Alpha' short name support for module based classes.
 * `x-inspect SocialMediaTunables` - List all available tunables.
+* `x-inspect automation.constants._Constants/_Lot_Descriptions` - Show tunings for 'automation/constants.py; class Constants: class  LotDescriptions'
+* `x-inspect social_media.social_media_tuning._Social_Media_Tunables SOCIAL_MEDIA_POST_REACTIONS`
 
 Each command drills deeper into the tuning structure:
 * The mod auto-detects the manager (e.g., INTERACTION)
@@ -36,6 +40,25 @@ This mod is incompatible with Scumbumbo’s Inspector, which uses the same `insp
 Scumbumbo’s tool requires editing and reloading scripts repeatedly — something I’ve done many times and didn’t enjoy.
 This version accepts Python objects (classes, tuples, etc.) directly as parameters, eliminating the need for constant script edits.
 
+## 📜 Short Names
+* "SocialMediaTunables": "social_media.social_media_tuning.SocialMediaTunables"
+* "LocalizationStrings": "automation.constants.Constants", "LocalizationStrings"
+* "Interactions": "automation.constants.Constants", "Interactions"
+* "ObjectDefinitions": "automation.constants.Constants", "ObjectDefinitions"
+* "ResourceIds": "automation.constants.Constants", "ResourceIds"
+* "LotDescriptions": "automation.constants.Constants", "LotDescriptions"
+* "ClubSeeds": "automation.constants.Constants", "ClubSeeds"
+* "Recipes": "automation.constants.Constants", "Recipes"
+* "Situations": "automation.constants.Constants", "Situations"
+* "SituationJobs": "automation.constants.Constants", "SituationJobs"
+* "Buffs": "automation.constants.Constants", "Buffs"
+* "Misc": "automation.constants.Constants", "Misc"
+* "ClubTunables": "clubs.club_tuning.ClubTunables"
+* "CommandTuning": "server_commands.sim_commands.CommandTuning"
+* "UiTuning": "ui.ui_tuning.UiTuning"
+
+When using the full qualified names make sure to use '_a' for 'A'.
+The attribute is always converted to upper case.
 
 ---
 

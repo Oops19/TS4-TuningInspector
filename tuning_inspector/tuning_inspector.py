@@ -233,6 +233,18 @@ class TuningInspector:
     )
     def cmd_o19_inspect_log(output: CommonConsoleCommandOutput, class_name: str, attribute_name: str = ''):
         try:
+            def resolve_tuning_attr(cls, user_input: str,):
+                # Try direct access first (e.g., user_input.upper())
+                try:
+                    return getattr(cls, user_input.upper())
+                except AttributeError:
+                    pass
+
+                for attr in dir(cls):
+                    if attr.lower() == user_input:
+                        return getattr(cls, attr)
+                return None
+
             lookup_table = {
                 "SocialMediaTunables".lower(): ("social_media.social_media_tuning.SocialMediaTunables", None),  # SOCIAL_MEDIA_POST_REACTIONS
                 "LocalizationStrings".lower(): ("automation.constants.Constants", "LocalizationStrings"),
@@ -250,34 +262,32 @@ class TuningInspector:
                 "CommandTuning".lower(): ("server_commands.sim_commands.CommandTuning", None),
                 "UiTuning".lower(): ("ui.ui_tuning.UiTuning", None),
             }
-            output(f"{class_name}")
+            output(f"cls={class_name} t={attribute_name}")
+            if "." in class_name:
+                _class_name, _, sub_class_name = class_name.partition('/')
+                module_name, _, cls_name = _class_name.rpartition('.')
+                cls_name = cls_name.title().replace('_', '')
+                sub_class_name = sub_class_name.title().replace('_', '')
+            else:
+                module_and_class_name, sub_class_name = lookup_table.get(class_name, (None, None))
+                if not module_and_class_name:
+                    output(f"Not found, try full name!")
+                    return
+                module_name, _, cls_name = module_and_class_name.rpartition('.')
+            output(f"* m={module_name} * c={cls_name} * sc={sub_class_name} * t={attribute_name} *")
 
-            module_and_class_name, sub_class_name = lookup_table.get(class_name, (None, None))
-            if not module_and_class_name:
-                pass  # format lowercase to social_media.social_media_tuning.SocialMediaTunable ... etc
-            module_name, _, cls_name = module_and_class_name.rpartition('.')
-            output(f"* {module_name} * {cls_name} * {sub_class_name} * {attribute_name} *")
             import importlib
             _module = importlib.import_module(module_name)
             _class = getattr(_module, cls_name)
             if sub_class_name:
                 _class = getattr(_class, sub_class_name)
 
-            def resolve_tuning_attr(cls, user_input: str,):
-                # Try direct access first (e.g., user_input.upper())
-                try:
-                    return getattr(cls, user_input.upper())
-                except AttributeError:
-                    pass
-
-                for attr in dir(cls):
-                    if attr.lower() == user_input:
-                        return getattr(cls, attr)
-                return None
-
-            output(f"attribute_name {attribute_name}")
             tuning = resolve_tuning_attr(_class, attribute_name)
-            if tuning is None:
+            self = TuningInspector()
+            if tuning:
+                self.inspector_log(f"{tuning}", True)
+                self.o19_inspect_object(tuning)
+            else:
                 tunings = []
                 for i in dir(_class):
                     if i.startswith('_'):
@@ -286,9 +296,6 @@ class TuningInspector:
                 tunings.sort()
                 output(f"Available tunings: {tunings}")
                 log.debug(f"Available tunings: {tunings}")
-                return
-            output(f"{type(tuning)}")
-            log.debug(f"{type(tuning)}")
 
             output('Done')
         except Exception as e:
