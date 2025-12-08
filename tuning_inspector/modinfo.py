@@ -22,10 +22,12 @@ class ModInfo(CommonModInfo):
 
     @property
     def _version(self) -> str:
-        return '1.0.12'
+        return '1.0.13'
 
 
 '''
+v1.0.13
+    x-inspect: Support for attributes
 v1.0.12
     Support for random tunables:
     'x-inspect social_media.social_media_tuning._Social_Media_Tunables SOCIAL_MEDIA_POST_REACTIONS'

@@ -7,6 +7,7 @@
 import os
 import inspect
 
+from sims4.collections import _ImmutableSlotsBase
 from tuning_inspector.modinfo import ModInfo
 
 from ts4lib.libraries.ts4folders import TS4Folders
@@ -108,11 +109,13 @@ class TuningInspector:
             self.inspector_log(f"Attribute '{attribute_name}' not found.")
 
     def o19_drill_getattr(self, obj, attribute_name):
-        self.inspector_log(f"**** o19_drill_getattr(obj :`{type(obj)}´ = `{obj}´, `{attribute_name}´) ****")
-        if isinstance(obj, tuple) or isinstance(obj, list) or isinstance(obj, set) or isinstance(obj, CompoundTestList):
+        self.inspector_log(f"**** o19_drill_getattr(obj :::`{type(obj)}´ = `{obj}´, `{attribute_name}´) ****")
+        if isinstance(obj, tuple) or isinstance(obj, list) or isinstance(obj, set) or isinstance(obj, CompoundTestList):  # or type(obj) == "<class 'sims4.collections.make_immutable_slots_class.<locals>.ImmutableSlots'>":
+            self.inspector_log(f"\t<iter>...")
             attribute = None
             for elem in obj:
-                if isinstance(elem, tuple) or isinstance(elem, list) or isinstance(elem, set) or isinstance(obj, CompoundTestList):
+                if isinstance(elem, tuple) or isinstance(elem, list) or isinstance(elem, set) or isinstance(obj, CompoundTestList):  # or type(obj) == "<class 'sims4.collections.make_immutable_slots_class.<locals>.ImmutableSlots'>":
+                    self.inspector_log(f"\t\t<iter>...")
                     return self.o19_drill_getattr(elem, attribute_name)
                 if attribute_name != '*':
                     attribute = getattr(elem, attribute_name, None)
@@ -122,14 +125,16 @@ class TuningInspector:
                     else:
                         self.inspector_log(f"WARN Could not get attribute '{attribute_name}' for elem '{elem}' in object '{obj}: {type(obj)} - (tuple/list) (1)'", True)
             for elem in obj:
-                self.inspector_log(f"**** (2) `{elem}´: `{type(elem)}´ ****")
+                self.inspector_log(f"**** (2) `{elem}´::: `{type(elem)}´ ****")
                 elem_str = f"{elem}"
                 elem_str_lower = elem_str.lower().replace('<', '')
                 attribute = None
                 if elem_str_lower.startswith(attribute_name):
                     attribute = elem
+                    self.inspector_log(f"\t<iter>...")
                     self.inspector_log(f"    # for t in obj: isinstance(t, {type(attribute)}")
                     if attribute:
+                        self.inspector_log(f"\t\t<iter>...")
                         self.o19_inspect_object(attribute)
                     else:
                         self.inspector_log(f"WARN Could not get attribute '{attribute_name}' for elem '{elem}' in object '{obj}: {type(obj)} - (tuple/list) (2)'", True)
@@ -228,10 +233,12 @@ class TuningInspector:
         "Log Usage: 'x-inspect Class TUNING - e.g. x-inspect Foo BAR",
         command_arguments=(
                 CommonConsoleCommandArgument('class_name', 'str', 'The class.', is_optional=False),
-                CommonConsoleCommandArgument('attribute_name', 'str', 'The tuning.', is_optional=True),
+                CommonConsoleCommandArgument('tuning_name', 'str', 'The tuning.', is_optional=True),
+                CommonConsoleCommandArgument('attributes', 'str', 'Drill down into these properties and/or classes.', is_optional=True, default_value=''),
+
         )
     )
-    def cmd_o19_inspect_log(output: CommonConsoleCommandOutput, class_name: str, attribute_name: str = ''):
+    def cmd_o19_inspect_log(output: CommonConsoleCommandOutput, class_name: str, tuning_name: str = '', attributes: str = ''):
         try:
             def resolve_tuning_attr(cls, user_input: str,):
                 # Try direct access first (e.g., user_input.upper())
@@ -261,8 +268,19 @@ class TuningInspector:
                 "ClubTunables".lower(): ("clubs.club_tuning.ClubTunables", None),
                 "CommandTuning".lower(): ("server_commands.sim_commands.CommandTuning", None),
                 "UiTuning".lower(): ("ui.ui_tuning.UiTuning", None),
+                "BroadcasterClubRule".lower(): ("clubs.club_tuning.BroadcasterClubRule", None),
+                "AdoptionService".lower(): ("adoption.adoption_service.AdoptionService", None),
+                "TelemetryTuning".lower(): ("elemetry_helper.TelemetryTuning", None),
+                "BalanceSystemTuning".lower(): ("balance_system.balance_system_tuning.BalanceSystemTuning", None),
+                "PassiveBalloons".lower(): ("balloon.passive_balloons.PassiveBalloons", None),
+                "Career".lower(): ("careers.career_tuning.Career", None),
+                "CASStoriesTuning".lower(): ("cas.cas_tuning.CASStoriesTuning", None),
+                "CASTuning".lower(): ("cas.cas_tuning.CASTuning", None),
+                "BaseCivicPolicyProvider".lower(): ("civic_policies.base_civic_policy_provider.BaseCivicPolicyProvider", None),
+                "Photography".lower(): ("crafting.photography.Photography", None),
+                "Recipe".lower(): ("crafting.recipe.Recipe", None),
             }
-            output(f"cls={class_name} t={attribute_name}")
+            output(f"cls={class_name} t={tuning_name} a={attributes}")
             if "." in class_name:
                 _class_name, _, sub_class_name = class_name.partition('/')
                 module_name, _, cls_name = _class_name.rpartition('.')
@@ -274,7 +292,7 @@ class TuningInspector:
                     output(f"Not found, try full name!")
                     return
                 module_name, _, cls_name = module_and_class_name.rpartition('.')
-            output(f"* m={module_name} * c={cls_name} * sc={sub_class_name} * t={attribute_name} *")
+            output(f"* m={module_name} * c={cls_name} * sc={sub_class_name} * t={tuning_name} *")
 
             import importlib
             _module = importlib.import_module(module_name)
@@ -282,11 +300,18 @@ class TuningInspector:
             if sub_class_name:
                 _class = getattr(_class, sub_class_name)
 
-            tuning = resolve_tuning_attr(_class, attribute_name)
+            tuning = resolve_tuning_attr(_class, tuning_name)
             self = TuningInspector()
             if tuning:
                 self.inspector_log(f"{tuning}", True)
-                self.o19_inspect_object(tuning)
+                if attributes == '':
+                    self.o19_inspect_object(tuning)
+                else:
+                    if self._do_console is False:
+                        self.o19_inspect_object(tuning)  # avoid to log the whole tuning to the console.
+                        self.inspector_log('-' * 160, True)
+                        self.inspector_log(f"** Attributes '{attributes}' ... **")
+                    self.o19_resolve_attrs(tuning, attributes)
             else:
                 tunings = []
                 for i in dir(_class):
