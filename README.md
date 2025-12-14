@@ -24,6 +24,8 @@ To inspect module based tunings `x-inspect` must be used:
 * `x-inspect SocialMediaTunables` - List all available tunables.
 * `x-inspect automation.constants._Constants/_Lot_Descriptions` - Show tunings for 'automation/constants.py; class Constants: class  LotDescriptions'
 * `x-inspect social_media.social_media_tuning._Social_Media_Tunables SOCIAL_MEDIA_POST_REACTIONS`
+* `x-inspect SocialMediaTunables TYPES_OF_POSTS content` - 'Alpha' short name support for module based classes.
+
 
 Each command drills deeper into the tuning structure:
 * The mod auto-detects the manager (e.g., INTERACTION)
@@ -54,8 +56,19 @@ This version accepts Python objects (classes, tuples, etc.) directly as paramete
 * "Buffs": "automation.constants.Constants", "Buffs"
 * "Misc": "automation.constants.Constants", "Misc"
 * "ClubTunables": "clubs.club_tuning.ClubTunables"
+* "BroadcasterClubRule": "clubs.club_tuning.BroadcasterClubRule"
 * "CommandTuning": "server_commands.sim_commands.CommandTuning"
 * "UiTuning": "ui.ui_tuning.UiTuning"
+* "TelemetryTuning": "telemetry_helper.TelemetryTuning"
+* "AdoptionService": "adoption.adoption_service.AdoptionService"
+* "BalanceSystemTuning": "balance_system.balance_system_tuning.BalanceSystemTuning"
+* "PassiveBalloons": "balloon.passive_balloons.PassiveBalloons"
+* "Career": "careers.career_tuning.Career"
+* "CASStoriesTuning": "cas.cas_tuning.CASStoriesTuning"
+* "CASTuning": "cas.cas_tuning.CASTuning"
+* "BaseCivicPolicyProvider": "civic_policies.base_civic_policy_provider.BaseCivicPolicyProvider"
+* "Photography": "crafting.photography.Photography"
+* "Recipe": "crafting.recipe.Recipe"
 
 When using the full qualified names make sure to use '_a' for 'A'.
 The attribute is always converted to upper case.
@@ -65,7 +78,7 @@ The attribute is always converted to upper case.
 # 📝 Addendum
 
 ## 🔄 Game compatibility
-This mod has been tested with `The Sims 4` 1.119.109, S4CL 3.17, TS4Lib 0.3.42.
+This mod has been tested with `The Sims 4` 1.120.117, S4CL 3.17, TS4Lib 0.3.42.
 It is expected to remain compatible with future releases of TS4, S4CL, and TS4Lib.
 
 ## 📦 Dependencies
