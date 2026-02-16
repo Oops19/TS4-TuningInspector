@@ -7,7 +7,6 @@
 import os
 import inspect
 
-from sims4.collections import _ImmutableSlotsBase
 from tuning_inspector.modinfo import ModInfo
 
 from ts4lib.libraries.ts4folders import TS4Folders

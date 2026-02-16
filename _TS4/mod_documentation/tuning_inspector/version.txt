@@ -1,5 +1,5 @@
-TuningInspector v1.0.13 for The Sims 4 v1.120.117 and S4CL v3.17
-Created on 2025-12-14
+TuningInspector v1.0.13 for The Sims 4 v1.121.342 and S4CL v3.17
+Created on 2026-02-04
 v1.0.13
     x-inspect: Support for attributes
 
