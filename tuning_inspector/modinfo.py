@@ -28,7 +28,7 @@ class ModInfo(CommonModInfo):
 '''
 v1.0.14
     Update documentation for 'GameVersion v1.121', S4CL and TS4L.
-    No functional changes, the old version still works fine fine.   
+    No functional changes, the old version still works fine.   
 v1.0.13
     x-inspect: Support for attributes
 v1.0.12
